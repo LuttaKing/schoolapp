@@ -64,7 +64,7 @@ print(querySnapshot.docs);
           Text('Trending Stories',style: TextStyle(color: Colors.indigo,fontSize: 26,fontFamily: 'Fred'),),
           IconButton(onPressed:(){
             getStories();
-          } ,icon: Icon(Icons.refresh),)
+          } ,icon: Icon(Icons.refresh,color: Colors.indigo,),)
         ],
       ),
                       SizedBox(   height:MediaQuery.of(context).size.height*0.03,),

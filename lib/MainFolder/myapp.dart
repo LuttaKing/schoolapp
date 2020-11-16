@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:schoolapp/Screens/AddSellItem.dart';
+import 'package:schoolapp/Screens/BizPage.dart';
 import 'package:schoolapp/Screens/ClassChat.dart';
 
 import 'package:schoolapp/Screens/DrawerPage.dart';
@@ -10,12 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-     
-        primarySwatch: Colors.orange,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-     // home:ClassChat(),
+      theme: ThemeData(primarySwatch: Colors.orange,
+        visualDensity: VisualDensity.adaptivePlatformDensity, ),
+   //   home:AddSellItem(),
       home: MyPage(),
     );
   }

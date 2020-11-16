@@ -1,9 +1,9 @@
 
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:rating_bar/rating_bar.dart';
 import 'package:schoolapp/COMMON/common.dart';
+import 'package:schoolapp/Screens/BizPage.dart';
 import 'package:schoolapp/Screens/ClassChat.dart';
 import 'package:show_up_animation/show_up_animation.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,6 +46,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   child: Divider(indent: 20,
                                   endIndent: 20,color:Colors.indigo,),
                 ),
+                listTile('Biz Corner',Icons.info,Colors.indigo,context),
                listTile('Rate App',Icons.rate_review,Colors.indigo,context),
          
                               listTile('Log Out',Icons.logout,Colors.indigo,context),
@@ -94,6 +95,16 @@ SizedBox(height: 40,),
         context,
         MaterialPageRoute(
           builder: (context) => ClassChat(userid: 'Kisiomi',isClass: false,),
+        ),
+      );
+              
+              }
+                else if(title=='Biz Corner'){
+                widget.drawerController.toggle();
+                    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BizPage(),
         ),
       );
               

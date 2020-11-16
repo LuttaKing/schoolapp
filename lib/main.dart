@@ -4,7 +4,6 @@ import 'package:schoolapp/MainFolder/myapp.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-
  await Firebase.initializeApp();
   runApp(MyApp());
 }
