@@ -13,7 +13,7 @@ class _EntataimentPageState extends State<EntataimentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+appBar: AppBar(centerTitle: true,title: Text('Pick a gig'),),
       body: SafeArea(child:SingleChildScrollView(
               child: Container(child: ShowUpList(children: [
 Padding(
@@ -21,12 +21,15 @@ Padding(
   child:   Text('All forms of entertainment',style: TextStyle(fontSize: 30),),
 ),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,children: [entatainItem('Facebook'),entatainItem('Whatsapp'),entatainItem('TikTok')],),
-          SizedBox(height: 50,),
+          SizedBox(height: 40,),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,children: [entatainItem('Music'),entatainItem('Instagram'),entatainItem('Twitter')],),
-                    SizedBox(height: 50,),
+                    SizedBox(height: 40,),
 
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,children: [entatainItem('Pinterest'),entatainItem('Youtube'),entatainItem('Test')],),
-                    SizedBox(height: 120,),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,children: [entatainItem('Pinterest'),
+          entatainItem('Youtube'),entatainItem('Quotes')],),
+           SizedBox(height: 40,),
+          Row(mainAxisAlignment: MainAxisAlignment.center,children: [entatainItem('Memes'),],),
+                    SizedBox(height: 20,),
 
 closeBtn(),
 

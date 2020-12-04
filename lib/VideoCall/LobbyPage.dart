@@ -18,6 +18,10 @@ class LobbyState extends State<LobbyPage> {
   bool _validateError = false;
 
   ClientRole _role = ClientRole.Broadcaster;
+   @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {

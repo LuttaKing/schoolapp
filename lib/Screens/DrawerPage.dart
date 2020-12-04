@@ -5,6 +5,9 @@ import 'package:rating_bar/rating_bar.dart';
 import 'package:schoolapp/COMMON/common.dart';
 import 'package:schoolapp/Screens/BizPage.dart';
 import 'package:schoolapp/Screens/ClassChat.dart';
+import 'package:schoolapp/Screens/Entatainment.dart';
+import 'package:schoolapp/Screens/FactScreen.dart';
+import 'package:schoolapp/Screens/LoginPage.dart';
 import 'package:show_up_animation/show_up_animation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,22 +35,22 @@ class _MyDrawerState extends State<MyDrawer> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 Row(children: [drawerHeader()],),
-              SizedBox(height: 20,),
-
-
-                listTile('Home',Icons.home,Colors.indigo,context),
-                listTile('My Units',Icons.account_box,Colors.indigo,context),
-               listTile('Fee Detail',Icons.card_membership,Colors.indigo,context),
+              SizedBox(height: 17,),
+  listTile('Home',Icons.home,Colors.indigo,context),
+  listTile('My Units',Icons.book_outlined,Colors.indigo,context),
+  listTile('Fee Detail',Icons.card_membership,Colors.indigo,context),
               
-             listTile('Class Chat',Icons.monetization_on,Colors.indigo,context),
-              listTile('School Forum',Icons.info,Colors.indigo,context),
-               Padding(
-                  padding: EdgeInsets.only(top:10.0),
+  listTile('Class Chat',Icons.chat_bubble_outline,Colors.indigo,context),
+  listTile('School Forum',Icons.forum_outlined,Colors.indigo,context),
+               Padding(padding: EdgeInsets.only(top:5.0),
                   child: Divider(indent: 20,
                                   endIndent: 20,color:Colors.indigo,),
                 ),
-                listTile('Biz Corner',Icons.info,Colors.indigo,context),
-               listTile('Rate App',Icons.rate_review,Colors.indigo,context),
+                listTile('Biz Corner',Icons.monetization_on_outlined,Colors.indigo,context),
+                listTile('Entertainment',Icons.tv_outlined,Colors.indigo,context),
+         listTile('Facts',Icons.lightbulb_outline,Colors.indigo,context),
+
+               listTile('Rate App',Icons.rate_review_outlined,Colors.indigo,context),
          
                               listTile('Log Out',Icons.logout,Colors.indigo,context),
 
@@ -65,7 +68,7 @@ SizedBox(height: 40,),
 
   Widget listTile(String title, IconData icon,Color color,BuildContext context){
     return ListTile(
-            title: Text(title,style: TextStyle(fontFamily: 'Nunito' ,color: Colors.blueGrey ,fontSize: 19)),
+            title: Text(title,style: TextStyle(fontFamily: 'Nunito' ,color: Colors.blueGrey ,fontSize: 17)),
             leading: Icon(icon,color: color),
             onTap: () {
               if (title=='Home') {
@@ -117,7 +120,32 @@ SizedBox(height: 40,),
               else if(title=='Log Out'){
                 widget.drawerController.toggle();
               tost('Logging out');
+                   Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
           
+              }else if(title=='Entertainment'){
+                widget.drawerController.toggle();
+                    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EntataimentPage(),
+        ),
+      );
+              
+              }
+                else if(title=='Facts'){
+                widget.drawerController.toggle();
+                Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FactScreenDrawer(),
+        ),
+      );
+              
               }
              
             },

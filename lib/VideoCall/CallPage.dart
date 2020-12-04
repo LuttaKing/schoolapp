@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolapp/VideoCall/AgoraId.dart';
 
@@ -24,7 +24,7 @@ class _CallPageState extends State<CallPage> {
   final _infoStrings = <String>[];
   bool muted = false;
   RtcEngine _engine;
-
+FirebaseFirestore firestore = FirebaseFirestore.instance;
   @override
   void dispose() {
     _users.clear();
@@ -57,15 +57,21 @@ class _CallPageState extends State<CallPage> {
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = VideoDimensions(1920, 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
-    await _engine.joinChannel(Token, widget.channelName, null, 0);
+    await _engine.joinChannel('', widget.channelName, null, 0);
   }
 
   /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
     _engine = await RtcEngine.create(APP_ID);
     await _engine.enableVideo();
-    await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
+    await _engine.setChannelProfile(ChannelProfile.Communication);
     await _engine.setClientRole(widget.role);
+    if (widget.role==ClientRole.Broadcaster) {
+       await firestore.collection('principal').doc('qLvXTnoNJDmJfOdlvVKm').update({
+          'meeting': 'on',
+        });
+  }
+    
   }
 
   /// Add agora event handlers
@@ -81,6 +87,8 @@ class _CallPageState extends State<CallPage> {
         final info = 'onJoinChannel: $channel, uid: $uid';
         _infoStrings.add(info);
       });
+     
+    //  AgoraCloudRecording().startAgoraCloudRecording(channel, uid);
     }, 
     leaveChannel: (stats) {
       setState(() {
@@ -182,10 +190,7 @@ class _CallPageState extends State<CallPage> {
         children: <Widget>[
           RawMaterialButton(
             onPressed: _onToggleMute,
-            child: Icon(
-              muted ? Icons.mic_off : Icons.mic,
-              color: muted ? Colors.white : Colors.blueAccent,
-              size: 20.0,
+            child: Icon( muted ? Icons.mic_off : Icons.mic, color: muted ? Colors.white : Colors.blueAccent, size: 20.0,
             ),
             shape: CircleBorder(),
             elevation: 2.0,
@@ -193,26 +198,25 @@ class _CallPageState extends State<CallPage> {
             padding: const EdgeInsets.all(12.0),
           ),
           RawMaterialButton(
-            onPressed: () => Navigator.pop(context),
-            child: Icon(
-              Icons.call_end,
+            onPressed: () async{ Navigator.pop(context);
+            
+             if (widget.role==ClientRole.Broadcaster) {
+       await firestore.collection('principal').doc('qLvXTnoNJDmJfOdlvVKm').update({
+          'meeting': 'off',
+        });
+       
+   }
+            },
+            child: Icon(Icons.call_end,
               color: Colors.white,
               size: 35.0,
-            ),
-            shape: CircleBorder(),
-            elevation: 2.0,
+            ),shape: CircleBorder(),elevation: 2.0,
             fillColor: Colors.redAccent,
             padding: const EdgeInsets.all(15.0),
           ),
-          RawMaterialButton(
-            onPressed: _onSwitchCamera,
-            child: Icon(
-              Icons.switch_camera,
-              color: Colors.blueAccent,
-              size: 20.0,
-            ),
-            shape: CircleBorder(),
-            elevation: 2.0,
+          RawMaterialButton(onPressed: _onSwitchCamera,
+            child: Icon( Icons.switch_camera,color: Colors.blueAccent,size: 20.0,
+            ),shape: CircleBorder(),elevation: 2.0,
             fillColor: Colors.white,
             padding: const EdgeInsets.all(12.0),
           )
@@ -246,13 +250,10 @@ class _CallPageState extends State<CallPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
+                      child: Container(padding: const EdgeInsets.symmetric(
                           vertical: 2,
                           horizontal: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.yellowAccent,
+                        ),decoration: BoxDecoration(color: Colors.yellowAccent,
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
@@ -287,7 +288,7 @@ class _CallPageState extends State<CallPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Agora Flutter QuickStart'),
+        title: Text('Meeting In Progress'),
       ),
       backgroundColor: Colors.black,
       body: Center(
@@ -301,4 +302,6 @@ class _CallPageState extends State<CallPage> {
       ),
     );
   }
+
+  
 }

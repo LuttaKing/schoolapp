@@ -13,7 +13,7 @@ class BizPage extends StatefulWidget {
 class _BizPageState extends State<BizPage> {
  
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference someCollection = FirebaseFirestore.instance.collection('shop');
+  CollectionReference someCollection = FirebaseFirestore.instance.collection('shop');
     @override
   void initState() {
     super.initState();
@@ -81,7 +81,7 @@ children: [
                   child: Stack(
                   
                     children: <Widget>[
-                    //
+               
                     Container( height: MediaQuery.of(context).size.height*0.178,
                     decoration: BoxDecoration(
                borderRadius: BorderRadius.only(topLeft:Radius.circular(12),topRight: Radius.circular(12)),

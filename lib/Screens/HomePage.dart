@@ -1,14 +1,17 @@
-
 import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:provider/provider.dart';
+import 'package:schoolapp/COMMON/common.dart';
 import 'package:schoolapp/Screens/Entatainment.dart';
 import 'package:schoolapp/COMMON/loginFunctions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/Screens/ReadStoryPage.dart';
+import 'package:schoolapp/VideoCall/CallPage.dart';
 import 'package:schoolapp/VideoCall/LobbyPage.dart';
+import 'package:schoolapp/notifier/notifier.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,22 +22,24 @@ class _HomePageState extends State<HomePage> {
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference someCollection = FirebaseFirestore.instance.collection('stories');
+    var someStream;
   @override
   void initState() {
     super.initState();
      getStories();
+
+     someStream= firestore.collection('principal').snapshots();
   }
 List storiesList;
  void getStories()async {
    QuerySnapshot querySnapshot=await someCollection.get();
-//DocumentSnapshot snapshot= await someCollection.doc('BLxWjvYwIoLvaEy1XhsL').get();
 setState(() {
   storiesList=querySnapshot.docs;
 });
-print(querySnapshot.docs);
 }
   @override
   Widget build(BuildContext context) {
+     return Consumer<MyNotifier>(builder: (context, myNotifier, anything) {
     return Scaffold(
       appBar: AppBar(leading: IconButton(icon: Icon(Icons.menu,color: Colors.white,),onPressed: (){
           ZoomDrawer.of(context).toggle();
@@ -46,15 +51,35 @@ print(querySnapshot.docs);
         },),
           IconButton(icon: Icon(Icons.call,color: Colors.white,),
         onPressed: ()async{
+          await requestCameraAndMic();
                              await Navigator.push(context,MaterialPageRoute(
-          builder: (context) => LobbyPage(),
+          builder: (context) => CallPage(
+              channelName: 'principal',
+            role: ClientRole.Broadcaster,
+          ),
         ),
       );
         },),
       ],),
-            backgroundColor: Color(0xfff5f6fa),
+            backgroundColor: Colors.grey[100],
 
       body: ListView(children: [
+
+        StreamBuilder<QuerySnapshot>(
+                stream:someStream,
+                   builder: (context, snapshot) {
+                     if (!snapshot.hasData)
+                    return Container();
+//print(snapshot.data.docs[0].data()['meeting']);
+
+if (snapshot.data.docs[0].data()['meeting']=='on'){
+ return joinMeeting(context);
+}
+else{
+  return Container();
+}
+                   }),
+
                       SizedBox(   height:MediaQuery.of(context).size.height*0.04,),
 
        logo(),
@@ -87,7 +112,9 @@ storiesList!=null ? Padding(
         ],),
       
     );
+       });
   }
+  
   Widget _storyTile(var story,int index){
     return Padding(
       padding: const EdgeInsets.all(5.0),
