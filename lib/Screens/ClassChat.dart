@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:schoolapp/COMMON/common.dart';
 import 'package:schoolapp/chatFolder/chatWidgets.dart';
 
 class ClassChat extends StatefulWidget {
@@ -108,6 +109,7 @@ String className='TestClass';
       });
     }
   }
+   var someStream;
   @override
   void initState() {
     super.initState();
@@ -115,6 +117,8 @@ String className='TestClass';
  schoolStream= firestore.collection('School Forum').orderBy('date').snapshots();
     isLoading = false;
     isUploadingImage = false;
+   
+     someStream= firestore.collection('principal').snapshots();
   }
   Future pickImage() async {
     File selectedimage =await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -154,6 +158,19 @@ String className='TestClass';
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+           StreamBuilder<QuerySnapshot>(
+                stream:someStream,
+                   builder: (context, snapshot) {
+                     if (!snapshot.hasData)
+                    return Container();
+
+if (snapshot.data.docs[0].data()['meeting']=='on'){
+ return joinMeeting(context);
+}
+else{
+  return Container();
+}
+                   }),
             isUploadingImage
                 ? LinearProgressIndicator(backgroundColor: Colors.blue[200], )
                 : Container(),

@@ -88,7 +88,6 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
         _infoStrings.add(info);
       });
      
-    //  AgoraCloudRecording().startAgoraCloudRecording(channel, uid);
     }, 
     leaveChannel: (stats) {
       setState(() {
@@ -119,9 +118,9 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
   /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
     final List<StatefulWidget> list = [];
-    if (widget.role == ClientRole.Broadcaster) {
+
       list.add(RtcLocalView.SurfaceView());
-    }
+   
     _users.forEach((int uid) => list.add(RtcRemoteView.SurfaceView(uid: uid)));
     return list;
   }

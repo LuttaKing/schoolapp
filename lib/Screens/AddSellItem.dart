@@ -20,10 +20,12 @@ class _AddSellItemState extends State<AddSellItem> {
   final FirebaseStorage _storage =FirebaseStorage(storageBucket: 'gs://schoolapp-756e6.appspot.com');
   StorageUploadTask _uploadTask;
   bool isLoading=false;
+   var someStream;
    @override
   void initState() {
     super.initState();
    
+     someStream= firestore.collection('principal').snapshots();
   }
   final _formKey = GlobalKey<FormState>();
 
@@ -49,6 +51,19 @@ class _AddSellItemState extends State<AddSellItem> {
             child: Center(
       child: ListView(
         children: <Widget>[
+           StreamBuilder<QuerySnapshot>(
+                stream:someStream,
+                   builder: (context, snapshot) {
+                     if (!snapshot.hasData)
+                    return Container();
+
+if (snapshot.data.docs[0].data()['meeting']=='on'){
+ return joinMeeting(context);
+}
+else{
+  return Container();
+}
+                   }),
       Text('Fill in the Form',style: TextStyle(fontSize: 26,fontFamily: 'Nunito',letterSpacing: 1),),
  SizedBox(height: MediaQuery.of(context).size.height*0.027,),
  Padding(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share/share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,10 +16,14 @@ class FactScreen extends StatefulWidget {
 
 class _FactScreenState extends State<FactScreen> {
 bool isLoading=false;
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+   
+    var someStream;
    @override
   void initState() {
    fetchFacts('Psychology');
      super.initState();
+       someStream= firestore.collection('principal').snapshots();
   }
   List factList;
 
@@ -42,7 +47,19 @@ bool isLoading=false;
             ],),
             body: SingleChildScrollView(
                           child: Container(child: Column(children: [
+ StreamBuilder<QuerySnapshot>(
+                stream:someStream,
+                   builder: (context, snapshot) {
+                     if (!snapshot.hasData)
+                    return Container();
 
+if (snapshot.data.docs[0].data()['meeting']=='on'){
+ return joinMeeting(context);
+}
+else{
+  return Container();
+}
+                   }),
                                      Padding(
                                        padding: const EdgeInsets.all(12.0),
                                        child: Text('Dose of Facts',style: TextStyle(color: Colors.indigo,fontSize: 26,fontFamily: 'Fred'),),
@@ -135,13 +152,13 @@ class _FactScreenDrawerState extends State<FactScreenDrawer> {
   @override
   Widget build(BuildContext context) {
     return  ZoomDrawer(
-      //angle: 0,
+      angle: 0,
       controller: _drawerController,
       menuScreen: MyDrawer(drawerController: _drawerController,),
       mainScreen: FactScreen(),
-      borderRadius: 22.0,
+      borderRadius: 10.0,
       showShadow: false,
-      slideWidth: MediaQuery.of(context).size.width*.68,
+      slideWidth: MediaQuery.of(context).size.width*.64,
       openCurve: Curves.fastOutSlowIn,
       closeCurve: Curves.easeInCubic,
     );

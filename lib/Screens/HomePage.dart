@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolapp/COMMON/common.dart';
-import 'package:schoolapp/Screens/Entatainment.dart';
 import 'package:schoolapp/COMMON/loginFunctions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schoolapp/Screens/ReadStoryPage.dart';
 import 'package:schoolapp/VideoCall/CallPage.dart';
-import 'package:schoolapp/VideoCall/LobbyPage.dart';
 import 'package:schoolapp/notifier/notifier.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 
@@ -27,7 +25,7 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
   void initState() {
     super.initState();
      getStories();
-
+ 
      someStream= firestore.collection('principal').snapshots();
   }
 List storiesList;
@@ -44,11 +42,7 @@ setState(() {
       appBar: AppBar(leading: IconButton(icon: Icon(Icons.menu,color: Colors.white,),onPressed: (){
           ZoomDrawer.of(context).toggle();
       },),actions: [
-        IconButton(icon: Icon(Icons.tap_and_play_sharp,color: Colors.white,),
-        onPressed: ()async{await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => EntataimentPage(), ),
-      );
-        },),
+       
           IconButton(icon: Icon(Icons.call,color: Colors.white,),
         onPressed: ()async{
           await requestCameraAndMic();
@@ -70,7 +64,6 @@ setState(() {
                    builder: (context, snapshot) {
                      if (!snapshot.hasData)
                     return Container();
-//print(snapshot.data.docs[0].data()['meeting']);
 
 if (snapshot.data.docs[0].data()['meeting']=='on'){
  return joinMeeting(context);

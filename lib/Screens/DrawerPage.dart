@@ -30,7 +30,7 @@ class _MyDrawerState extends State<MyDrawer> {
       
       body: SafeArea(
               child: Container(
-            color: Color(0xfff5f6fa),
+            color: Color(0xff263238),
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
@@ -68,7 +68,7 @@ SizedBox(height: 40,),
 
   Widget listTile(String title, IconData icon,Color color,BuildContext context){
     return ListTile(
-            title: Text(title,style: TextStyle(fontFamily: 'Nunito' ,color: Colors.blueGrey ,fontSize: 17)),
+            title: Text(title,style: TextStyle(fontFamily: 'Nunito' ,color: Colors.white ,fontSize: 15)),
             leading: Icon(icon,color: color),
             onTap: () {
               if (title=='Home') {

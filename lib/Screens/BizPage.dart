@@ -14,10 +14,14 @@ class _BizPageState extends State<BizPage> {
  
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference someCollection = FirebaseFirestore.instance.collection('shop');
+   var someStream;
     @override
   void initState() {
     super.initState();
      getShop();
+    
+   
+     someStream= firestore.collection('principal').snapshots();
   }
 List shopObjects;
  void getShop()async {
@@ -47,6 +51,19 @@ setState(() {
           child: SingleChildScrollView(
                     child: Column(        crossAxisAlignment: CrossAxisAlignment.start,
 children: [
+   StreamBuilder<QuerySnapshot>(
+                stream:someStream,
+                   builder: (context, snapshot) {
+                     if (!snapshot.hasData)
+                    return Container();
+
+if (snapshot.data.docs[0].data()['meeting']=='on'){
+ return joinMeeting(context);
+}
+else{
+  return Container();
+}
+                   }),
   SizedBox(   height:MediaQuery.of(context).size.height*0.06,),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

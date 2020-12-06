@@ -37,10 +37,11 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return  ZoomDrawer(
+       angle: 0,
       controller: _drawerController,
       menuScreen: MyDrawer(drawerController: _drawerController,),
       mainScreen: HomePage(),
-      borderRadius: 22.0,
+      borderRadius: 10.0,
       showShadow: false,
       slideWidth: MediaQuery.of(context).size.width*.6,
       openCurve: Curves.fastOutSlowIn,

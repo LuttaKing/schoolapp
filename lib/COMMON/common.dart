@@ -142,7 +142,7 @@ Widget joinMeeting(BuildContext context,){
 return GestureDetector(
   child:   Container(color: Colors.green,
           height:MediaQuery.of(context).size.height*0.045,width: MediaQuery.of(context).size.width,
-          child: Center(child: Text('Join an on going class',
+          child: Center(child: Text('Join a video meeting',
           style: TextStyle(color: Colors.white),)),),
           onTap: (){
 goToCallPage(context,'principal');

@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolapp/COMMON/common.dart';
 
@@ -18,7 +19,14 @@ class ReadStory extends StatefulWidget {
 }
 
 class _ReadStoryState extends State<ReadStory> {
-  
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+    var someStream;
+   void initState() {
+    super.initState();
+   
+ 
+     someStream= firestore.collection('principal').snapshots();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +40,19 @@ class _ReadStoryState extends State<ReadStory> {
         padding: const EdgeInsets.all(4.0),
         child: SingleChildScrollView(
                   child: Column(children: [
+                     StreamBuilder<QuerySnapshot>(
+                stream:someStream,
+                   builder: (context, snapshot) {
+                     if (!snapshot.hasData)
+                    return Container();
+
+if (snapshot.data.docs[0].data()['meeting']=='on'){
+ return joinMeeting(context);
+}
+else{
+  return Container();
+}
+                   }),
    Hero(
      tag: widget.index,
         child: ClipRRect(borderRadius: BorderRadius.circular(10.0),
