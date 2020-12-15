@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
         title: 'School App',
         theme: ThemeData(primarySwatch: Colors.orange,
           visualDensity: VisualDensity.adaptivePlatformDensity, ),
-   
         home: LoginPage(),
       ),
     );

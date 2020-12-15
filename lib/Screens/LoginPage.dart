@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolapp/MainFolder/myapp.dart';
-import 'package:schoolapp/Screens/HomePage.dart';
 import 'package:schoolapp/COMMON/loginFunctions.dart';
 import 'package:show_up_animation/show_up_animation.dart';
 
